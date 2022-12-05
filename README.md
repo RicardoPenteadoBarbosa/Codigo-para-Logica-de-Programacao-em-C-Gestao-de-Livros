@@ -10,5 +10,5 @@ Gestão de Livros
  -Sair do Programa
  
  Espero que gostem é um trabalho simples mas feito com esforço e para o fim maior de treino e prática, espero na medida da progressão de meus estudos
- vou criando programinhas mais completos e complexos, e ansiosamente espero com minha evoluçao a utilização de interface gráfica, e também banco de dados, 
+ vou criando programinhas mais completos e complexos, e ansiosamente espero com minha evoluçao para também a utilização de interface gráfica, e banco de dados, 
  Que com certeza trarei futuramente aqui.
