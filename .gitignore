@@ -1,32 +1,410 @@
-# Prerequisites
-*.d
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
+#include<iostream>
+#include<locale.h>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+//prototypação das funções
+void login();
+void cad_livros();
+void mudar_status();
+void remove_livros();
+void list_livros();
+void menu();
 
-# Precompiled Headers
-*.gch
-*.pch
+//criação da estrutura para os livros
+typedef struct{
+	char nome[200];
+	char autor[200];
+	char gener[200];
+	int pag;
+	float nota;
+	int date_inicio_dia;
+	int date_inicio_mes;
+	int date_inicio_ano; //data dia: data mês: data ano:
+	int date_fim_dia;    //data dia: data mês: data ano:
+	int date_fim_mes;
+	int date_fim_ano;
+	int status;
+	bool empty;
+}livro;
+//struct estrutura estrutura;//mudei nome da struct "estrutura" para estrutura.
+livro livros[100];//criei 100 variaveis livros com a estrutura
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
 
-# Fortran module files
-*.mod
-*.smod
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+int main(){
+	
+	setlocale(LC_ALL, "Portuguese");
+	fflush(stdin);
+	menu();
+}
 
-# Executables
-*.exe
-*.out
-*.app
+
+void menu(){
+	fflush(stdin);
+	int op;
+	int x = 0;
+	
+	//printf("\n  SISTEMA DE GERENCIAMENTO DE LIVROS\n");
+	printf("___________________________________");
+	printf("\n\t\tMENU\n");
+	printf("___________________________________\n");
+	printf("1 - Listagem dos Livros.\n");
+	printf("2 - Cadastrar Livros.\n");
+	printf("3 - Mudar Status de um Livro.\n");
+	printf("4 - Remover Livro.\n");
+	printf("5 - Sair do Programa.\n");
+	
+	printf("\nDigite a opção Desejada:");
+	scanf("%d", &op);
+	fflush(stdin);
+	
+	switch(op){
+		case 1:
+			list_livros();
+			break;
+			
+		case 2:
+			cad_livros();
+			break;
+		case 3:
+			mudar_status();
+			break;
+		case 4:
+			remove_livros();
+			break;
+		case 5:
+			printf("\nEncerrando o Programa...\n");
+			x=0;
+			while(x<= 10){
+				system("exit");
+				x++;
+			}
+			break;
+		default:
+			printf("Digite uma opção Valida!\n\n");
+			system("pause");
+			system("cls");
+			return menu();
+			break;
+	}
+}
+
+void cad_livros()
+{
+	int quant;
+	int x = 1;
+	int oter_book;
+	livros[100];
+	system("cls");
+	
+	printf("___________________________________\n");
+	printf("\tCADASTRO DE LIVROS\n");
+	printf("___________________________________\n");
+	printf("Digite a quantidade de Livros:\n");
+	scanf("%d", &quant);
+	fflush(stdin);
+	system("cls");
+	
+	while(x <= quant)
+	{
+		if(livros[x].empty == false)
+		{
+			fflush(stdin);
+			printf("___________________________________\n");
+			printf("\tCADASTRO DE LIVROS\n");
+			printf("___________________________________\n");
+			printf("->Nome do Livro[0%d]:\n",x);
+			fgets(livros[x].nome, 30, stdin); 
+			fflush(stdin);
+			printf("\n->Nome do autor do Livro:\n");
+			fgets(livros[x].autor, 30, stdin);
+			fflush(stdin);
+			printf("\n->Gênero do Livro:\n");
+			fgets(livros[x].gener, 25, stdin);
+			fflush(stdin);
+			printf("\n->Quantidade de Páginas:\n");
+			scanf("%d", &livros[x].pag);
+			fflush(stdin);
+			printf("\n->Status do Livro:\n1 - Terminado\n2 - Em Leitura. \n");
+			scanf("%d", &livros[x].status);
+			fflush(stdin);
+			system("cls");
+			printf("\n->Data de inicio da Leitura:\n");
+			printf("Dia:");
+			scanf("%d", &livros[x].date_inicio_dia);
+			fflush(stdin);
+			printf("Mês:");
+			scanf("%d", &livros[x].date_inicio_mes);
+			fflush(stdin);
+			printf("Ano:");
+			scanf("%d", &livros[x].date_inicio_ano);
+			fflush(stdin);
+			if(livros[x].status == 1){
+				printf("\n->Data de fim da Leitura:\n");
+				printf("Dia:");
+				scanf("%d", &livros[x].date_fim_dia);
+				fflush(stdin);
+				printf("Mês:");
+				scanf("%d", &livros[x].date_fim_mes);
+				fflush(stdin);
+				printf("Ano:");
+				scanf("%d", &livros[x].date_fim_ano);
+				fflush(stdin);
+				printf("\nNota do Livro: ");
+				scanf("%f", &livros[x].nota);
+				fflush(stdin);
+			
+			}
+			livros[x].empty = true;
+			printf("\n Livro Cadastrado com sucesso.\n\n");
+			system("pause");
+			system("cls");
+			x++;
+	    }
+	    
+	    	else{
+	    		x++;
+				quant++;
+			}	
+		
+		
+		
+	}
+	fflush(stdin);
+	printf("Deseja Cadastrar outro Livro. [1- sim/ 2- não]\n");
+	scanf("%d", &oter_book);
+	fflush(stdin);
+	if(oter_book == 1){
+		system("cls");
+		return cad_livros();
+	}
+	else{
+		system("cls");
+		return list_livros();
+	}
+	
+	
+	
+	
+}
+void list_livros(){
+	int num = 1;
+	int contador = 0;
+	system("cls");
+	
+	while(num <= 25)
+	{
+		if(livros[num].empty == true)
+		{
+			printf("____________________________________");
+			printf("\n\tLIVRO[0%d]:\n Nome: %s Gênero: %s", num, livros[num].nome, livros[num].gener);
+			printf(" Autor: %s Número de Páginas: %d\n", livros[num].autor, livros[num].pag);
+			printf(" Data inicio de Leitura:\n");
+			printf(" Dia: %d   Mês: %d   Ano: %d\n", livros[num].date_inicio_dia, livros[num].date_inicio_mes, livros[num].date_inicio_ano);
+			if(livros[num].status == 1)
+			{
+				printf(" Data de Fim de Leitura:\n");
+				printf(" Dia: %d   Mês: %d   Ano: %d\n", livros[num].date_fim_dia, livros[num].date_fim_mes, livros[num].date_fim_ano);
+				printf(" Nota do Livro: %.2f\n", livros[num].nota);
+			}
+			num++;
+			contador++;
+		}
+		else{
+			num++;
+		}
+	
+	
+	}
+	if(contador == 0)
+	{
+		
+		printf("\n\n\tNenhum Livro Cadastrado!\n\n\n");
+		system("pause");
+		system("cls");
+		return menu();	
+	}
+	else
+	{
+		printf("\n Livro/s Cadastrados: [0%d].\n", contador);
+		system("pause");
+		system("cls");
+		return menu();
+	}
+}
+
+void remove_livros(){
+	int y = 1;
+	int cont = 0;
+	int n_book = 0;
+	int confirm_rmv = 0;
+	system("cls");
+	fflush(stdin);
+	
+	while(y <= 25)
+	{
+		if(livros[y].empty == true)
+		{
+			printf("____________________________________");
+			printf("\n\tLIVRO[0%d]:\n Nome: %s Gênero: %s", y, livros[y].nome, livros[y].gener);
+			printf(" Autor: %s Número de Páginas: %d\n", livros[y].autor, livros[y].pag);
+			printf(" Data inicio de Leitura:\n");
+			printf(" Dia: %d   Mês: %d   Ano: %d\n", livros[y].date_inicio_dia, livros[y].date_inicio_mes, livros[y].date_inicio_ano);
+			if(livros[y].status == 1)
+			{
+				printf(" Data de Fim de Leitura:\n");
+				printf(" Dia: %d   Mês: %d   Ano: %d\n", livros[y].date_fim_dia, livros[y].date_fim_mes, livros[y].date_fim_ano);
+				printf(" Nota do Livro: %.2f\n", livros[y].nota);
+			}
+			y++;
+			cont++;
+			
+		}
+		else{
+			y++;
+		}
+	}
+	
+	if(cont == 0)
+	{
+		printf("\n\n\tNenhum Livro Cadastrado!\n\n\n");
+		system("pause");
+		system("cls");
+		return menu();	
+	}
+	else
+	{
+		printf("\n Livro/s Cadastrados: [0%d].\n", cont);
+		system("pause");
+		fflush(stdin);
+		printf("\nDigite o a númeração do Livro que deseja Remover: ");
+		scanf("%d", &n_book);
+		fflush(stdin);
+		system("cls");
+		printf("   Confirmar Remoção do Livro -> %s      [1 - sim/ 2 - não].\n", livros[n_book].nome);
+		scanf("%d", &confirm_rmv);
+		fflush(stdin);
+		if(confirm_rmv == 1)
+		{
+			livros[n_book].empty = false;
+			printf("\nLivro %sRemovido com sucesso!\n", livros[n_book].nome);
+			system("pause");
+			system("cls");
+			return list_livros();
+			
+		}
+		else
+		{
+			printf("Remoção do Livro Cancelada...\n");
+			system("pause");
+			system("cls");
+			return menu();
+			
+		}
+		
+		
+		
+		
+		system("cls");
+		return menu();
+	}
+	
+	
+}
+
+void mudar_status()
+{
+	int j = 1;
+	int c = 0;
+	int mud_status;
+	int confirm_mud_status;
+	fflush(stdin);
+	
+	system("cls");
+	while(j<=25)
+	{
+		if(livros[j].empty == true)
+		{
+			printf("____________________________________");
+			printf("\n\tLIVRO[0%d]:\n Nome: %s Gênero: %s", j, livros[j].nome, livros[j].gener);
+			printf(" Autor: %s Número de Páginas: %d\n", livros[j].autor, livros[j].pag);
+			printf(" Data inicio de Leitura:\n");
+			printf(" Dia: %d   Mês: %d   Ano: %d\n", livros[j].date_inicio_dia, livros[j].date_inicio_mes, livros[j].date_inicio_ano);
+			if(livros[j].status == 1)
+			{
+				printf(" Data de Fim de Leitura:\n");
+				printf(" Dia: %d   Mês: %d   Ano: %d\n", livros[j].date_fim_dia, livros[j].date_fim_mes, livros[j].date_fim_ano);
+				printf(" Nota do Livro: %.2f\n", livros[j].nota);
+			}
+			j++;
+			c++;
+			
+		}
+		else
+		{
+			j++;
+		}
+		
+		
+	}
+	if(c == 0)
+		{
+		
+			printf("\n\n\tNenhum Livro Cadastrado!\n\n\n");
+			system("pause");
+			system("cls");
+			return menu();	
+		}
+		else
+		{
+			fflush(stdin);
+			printf("\n Livro/s Cadastrados: [0%d].\n", c);
+			system("pause");
+			printf("Digite o número do Livro que deseja mudar o Status:\n");
+			scanf("%d", &mud_status);
+			fflush(stdin);
+			//system("cls");
+			printf("\nDeseja confirmar Modificação do status do Livro [1-sim/ 2-não]\n",livros[mud_status].nome);
+			scanf("%d", &confirm_mud_status);
+			fflush(stdin);
+			if(confirm_mud_status == 1)
+			{
+				system("cls");
+				livros[mud_status].status = 1;
+				printf("\n->Data de fim da Leitura:\n");
+				printf("Dia:");
+				scanf("%d", &livros[mud_status].date_fim_dia);
+				fflush(stdin);
+				printf("Mês:");
+				scanf("%d", &livros[mud_status].date_fim_mes);
+				fflush(stdin);
+				printf("Ano:");
+				scanf("%d", &livros[mud_status].date_fim_ano);
+				fflush(stdin);
+				printf("\nNota do Livro: ");
+				scanf("%f", &livros[mud_status].nota);
+				fflush(stdin);
+				system("cls");
+				printf("\nStatus do Livro %sModificados com Sucesso.\n", livros[mud_status].nome);
+				system("pause");
+				system("cls");
+				return list_livros();
+				
+			}
+			else
+			{
+				printf("\nMudança de Status Cancelada...\n");
+				system("pause");
+				system("cls");
+				return menu();
+			}
+			
+			
+		}
+
+	
+}
+
